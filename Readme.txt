@@ -1,18 +1,25 @@
-Information Retrieval - Programming Assignment 1: Text Parser
+Information Retrieval - Programming Assignment 2: Search Engine Index Construction
 
 DESCRIPTION
-This project implements a Text Parser that reads TREC-formatted documents, tokenizes the text, removes stopwords, and applies the Porter Stemmer algorithm. It outputs a sorted Term Dictionary and a Document Dictionary, mapping unique words and document names to unique IDs.
+This project builds upon the Phase 1 Text Parser to construct a functioning Indexer for an Information Retrieval Engine. It processes TREC-formatted text files, standardizes tokens using a Porter Stemmer, and dynamically builds two structures:
+1. Forward Index: Maps each document ID to a list of word IDs and their frequencies.
+2. Inverted Index: Maps each word ID to the documents containing it and their frequencies.
+
+The program outputs these indices as text files and provides an interactive command-line interface to search for specific terms and retrieve their posting lists.
 
 PROJECT STRUCTURE
 IR_Text_Parser/
 ├── src/
 │   ├── TextParser.java
 │   ├── Porter.java
-│   └── parser_output.txt       (Generated automatically upon execution)
+│   ├── forward_index.txt       (Generated automatically)
+│   └── inverted_index.txt      (Generated automatically)
 ├── data/
 │   ├── ft911/                  (Directory containing all TREC text files)
-│   └── stopwordlist.txt        (Text file containing stopwords, one per line)
-└── Readme.txt
+│   ├── testdata.txt            (For specific test files)
+│   └── stopwordlist.txt        (Text file containing stopwords)
+├── Readme.txt
+└── project-report.pdf
 
 HOW TO COMPILE
 1. Open your terminal or command prompt.
@@ -21,12 +28,15 @@ HOW TO COMPILE
 3. Compile the Java files by running the following command:
    javac TextParser.java Porter.java
 
-HOW TO RUN (USING STRICT RELATIVE PATHS)
-1. Ensure your terminal is still located inside the "src" directory.
-2. Run the program by passing the strict relative paths to the data folder. The command steps out of "src" (using ../) and goes into "data":
+HOW TO RUN
+1. Ensure your terminal is located inside the "src" directory.
+2. Run the program using relative paths pointing to the data folder:
    java TextParser ../data/ft911/ ../data/stopwordlist.txt
 
-OUTPUT
-After successful execution, the program will generate a file named "parser_output.txt" directly inside the "src/" directory. 
-- Words are sorted alphabetically prior to ID assignment.
-- Document IDs are strictly parsed to match the numeric value in the FT911-X filename.
+*(Note: To test a specific file instead of the whole directory, replace `../data/ft911/` with the path to the text file, e.g., `../data/testdata.txt`)*
+
+INTERACTIVE SEARCHING
+Once the indexing process is complete, an interactive console will appear.
+- Type any English word (e.g., "computer", "assign").
+- The system will stem it and return its exact posting list in the required format: `term: docID:freq ; docID:freq`
+- Type `EXIT` to close the application.
