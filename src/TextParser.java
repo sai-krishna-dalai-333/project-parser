@@ -115,7 +115,21 @@ public class TextParser {
             word_id_counter++;
         }
 
-        // 2. Export Forward Index
+        // 2. Export Word Dictionary
+        BufferedWriter word_writer = new BufferedWriter(new FileWriter("word_dict.txt"));
+        for (Map.Entry<String, Integer> entry : term_id_map.entrySet()) {
+            word_writer.write(entry.getKey() + "\t" + entry.getValue() + "\n");
+        }
+        word_writer.close();
+
+        // 3. Export Document Dictionary
+        BufferedWriter doc_writer = new BufferedWriter(new FileWriter("doc_dict.txt"));
+        for (Map.Entry<String, Integer> entry : trec_doc_map.entrySet()) {
+            doc_writer.write(entry.getKey() + "\t" + entry.getValue() + "\n");
+        }
+        doc_writer.close();
+
+        // 4. Export Forward Index
         BufferedWriter fwd_writer = new BufferedWriter(new FileWriter("forward_index.txt"));
         for (Map.Entry<Integer, Map<String, Integer>> entry : forward_index_temp.entrySet()) {
             int d_id = entry.getKey();
@@ -135,7 +149,7 @@ public class TextParser {
         }
         fwd_writer.close();
 
-        // 3. Export Inverted Index
+        // 5. Export Inverted Index
         BufferedWriter inv_writer = new BufferedWriter(new FileWriter("inverted_index.txt"));
         for (Map.Entry<String, Map<Integer, Integer>> entry : inverted_index_temp.entrySet()) {
             int w_id = term_id_map.get(entry.getKey());
@@ -214,7 +228,11 @@ public class TextParser {
             
             System.out.println("------------------------------------------------");
             System.out.println("Indexing Complete! Time taken: " + (end_time - start_time) + " ms");
-            System.out.println("Generated 'forward_index.txt' and 'inverted_index.txt' in src/");
+            System.out.println("Exported files to src/:");
+            System.out.println(" - word_dict.txt");
+            System.out.println(" - doc_dict.txt");
+            System.out.println(" - forward_index.txt");
+            System.out.println(" - inverted_index.txt");
             System.out.println("------------------------------------------------");
             
             // Launch the interactive testing tool
